@@ -1,49 +1,69 @@
-class Vehiculo:
-    def __init__(self, tipo, color, peso, ruedas=4, es_electrico=False, capacidad_pasajeros = 5, estado = "nuevo"):
-        self.tipo = tipo # 'auto', 'moto', 'camion'
+from abc import ABC, abstractmethod
+
+class IVehiculo(ABC):
+    def __init__(self, color, peso, ruedas, es_electrico, capacidad_pasajeros, estado="nuevo"):
         self.color = color
         self.peso = peso
         self.ruedas = ruedas
         self.es_electrico = es_electrico
         self.capacidad_pasajeros = capacidad_pasajeros
-        self.estado = "nuevo"
+        self.estado = estado
+
+    @abstractmethod
+    def calcular_costo(self):
+        pass
+
+    @abstractmethod
+    def requiere_inspeccion(self):
+        pass
+
+
+class Auto(IVehiculo):
+    costo_base = 15000
+    multiplicador_extra = 100
+    recargo_electrico = 5000
+
+    def __init__(self, color, peso, es_electrico=False, capacidad_pasajeros=5):
+        super().__init__(color, peso, ruedas=4, es_electrico=es_electrico, capacidad_pasajeros=capacidad_pasajeros)
 
     def calcular_costo(self):
-        if self.tipo == 'auto':
-            base = 15000
-            extra = self.peso * 100
-            if self.es_electrico:
-                extra += 5000
-        elif self.tipo == 'moto':
-            base = 8000
-            extra = self.peso * 50
-            if self.es_electrico:
-                extra += 3000
-        elif self.tipo == 'camion':
-            base = 45000
-            extra = self.peso * 200
-        else:
-            base = 0
-            extra = 0
-        return base + extra
-    
-    def necesita_inspeccion(self):
-        if self.tipo == 'auto' and self.peso > 2000:
-            return True
-        elif self.tipo == 'moto' and self.peso > 300:
-            return True
-        elif self.tipo == 'camion':
-            return True
-        else:
-            return False
-        
-    def imprimir_datos(self):
-        print(f"Vehículo tipo: {self.tipo}")
-        print(f"Color: {self.color}")
-        print(f"Peso: {self.peso} kg")
-        print(f"Ruedas: {self.ruedas}")
-        print(f"Eléctrico: {'Sí' if self.es_electrico else 'No'}")
-        print(f"Capacidad: {self.capacidad_pasajeros} pasajeros")
-        print(f"Costo: ${self.calcular_costo()}")
-        print(f"Requiere inspección: {'Sí' if self.necesita_inspeccion() else 'No'}")
-        print("------------------------")
+        extra = self.peso * self.multiplicador_extra
+        if self.es_electrico:
+            extra += self.recargo_electrico
+        return self.costo_base + extra
+
+    def requiere_inspeccion(self):
+        return self.peso > 2000
+
+
+class Moto(IVehiculo):
+    costo_base = 8000
+    multiplicador_extra = 50
+    recargo_electrico = 3000
+
+    def __init__(self, color, peso, es_electrico=False):
+        super().__init__(color, peso, ruedas=2, es_electrico=es_electrico, capacidad_pasajeros=2)
+
+    def calcular_costo(self):
+        extra = self.peso * self.multiplicador_extra
+        if self.es_electrico:
+            extra += self.recargo_electrico
+        return self.costo_base + extra
+
+    def requiere_inspeccion(self):
+        return self.peso > 300
+
+
+class Camion(IVehiculo):
+    costo_base = 45000
+    multiplicador_extra = 200
+
+    def __init__(self, color, peso, capacidad_pasajeros=2):
+        super().__init__(color, peso, ruedas=6, es_electrico=False, capacidad_pasajeros=capacidad_pasajeros)
+
+    def calcular_costo(self):
+        return self.costo_base + self.peso * self.multiplicador_extra
+
+    def requiere_inspeccion(self):
+        return True
+

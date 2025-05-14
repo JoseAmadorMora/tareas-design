@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from vehiculo import IVehiculo
+from tarea2.vehiculos import IVehiculo
 
-class IInspectorVehiculos:
+class IVistaVehiculos:
     @abstractmethod
     def calcular_costo_vehiculo(self, vehiculo: IVehiculo) -> float:
         pass

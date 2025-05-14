@@ -1,4 +1,4 @@
-from vehiculo import IVehiculo
+from tarea2.vehiculos import IVehiculo
 class Flota:
     def __init__(self):
         self.vehiculos = []

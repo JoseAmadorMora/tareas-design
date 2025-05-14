@@ -8,13 +8,14 @@ class IVehiculo(ABC):
         self.es_electrico = es_electrico
         self.capacidad_pasajeros = capacidad_pasajeros
         self.estado = estado
+        self.tipo = ""
 
     @abstractmethod
-    def calcular_costo(self):
+    def calcular_costo(self) -> float:
         pass
 
     @abstractmethod
-    def requiere_inspeccion(self):
+    def requiere_inspeccion(self) -> bool:
         pass
 
 
@@ -25,6 +26,7 @@ class Auto(IVehiculo):
 
     def __init__(self, color, peso, es_electrico=False, capacidad_pasajeros=5):
         super().__init__(color, peso, ruedas=4, es_electrico=es_electrico, capacidad_pasajeros=capacidad_pasajeros)
+        self.tipo = "auto"
 
     def calcular_costo(self):
         extra = self.peso * self.multiplicador_extra
@@ -43,6 +45,7 @@ class Moto(IVehiculo):
 
     def __init__(self, color, peso, es_electrico=False):
         super().__init__(color, peso, ruedas=2, es_electrico=es_electrico, capacidad_pasajeros=2)
+        self.tipo = "moto"
 
     def calcular_costo(self):
         extra = self.peso * self.multiplicador_extra
@@ -60,6 +63,7 @@ class Camion(IVehiculo):
 
     def __init__(self, color, peso, capacidad_pasajeros=2):
         super().__init__(color, peso, ruedas=6, es_electrico=False, capacidad_pasajeros=capacidad_pasajeros)
+        self.tipo = "camión"
 
     def calcular_costo(self):
         return self.costo_base + self.peso * self.multiplicador_extra

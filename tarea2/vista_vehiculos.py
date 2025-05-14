@@ -1,7 +1,7 @@
-from i_inspector_vehiculos import IInspectorVehiculos
-from vehiculo import IVehiculo
+from tarea2.i_vista_vehiculos import IVistaVehiculos
+from tarea2.vehiculos import IVehiculo
 
-class InspectorVehiculos(IInspectorVehiculos):
+class VistaVehiculos(IVistaVehiculos):
     def imprimir_datos_vehiculo(self, vehiculo: IVehiculo):
         print(f"Vehículo tipo: {vehiculo.tipo}")
         print(f"Color: {vehiculo.color}")
@@ -9,6 +9,6 @@ class InspectorVehiculos(IInspectorVehiculos):
         print(f"Ruedas: {vehiculo.ruedas}")
         print(f"Eléctrico: {'Sí' if vehiculo.es_electrico else 'No'}")
         print(f"Capacidad: {vehiculo.capacidad_pasajeros} pasajeros")
-        print(f"Costo: ${self.calcular_costo_vehiculo()}")
-        print(f"Requiere inspección: {'Sí' if self.verificar_si_vehiculo_requiere_inspeccion() else 'No'}")
+        print(f"Costo: ${vehiculo.calcular_costo()}")
+        print(f"Requiere inspección: {'Sí' if vehiculo.requiere_inspeccion() else 'No'}")
         print("------------------------")
